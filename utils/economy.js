@@ -7,6 +7,10 @@ const MAX_ENERGY = 10;
 const ENERGY_INTERVAL_MS = 15 * 60 * 1000;
 
 function loadData() {
+  const dir = path.dirname(DATA_PATH);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
   if (!fs.existsSync(DATA_PATH)) {
     fs.writeFileSync(DATA_PATH, JSON.stringify({}), 'utf8');
   }
