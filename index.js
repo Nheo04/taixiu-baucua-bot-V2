@@ -34,8 +34,11 @@ client.on('interactionCreate', async interaction => {
         c.buttonPrefix === prefix || c.shopPrefix === prefix || c.buyPrefix === prefix
       );
       if (command) {
-        if (prefix === command.shopPrefix && command.handleShopButton) await command.handleShopButton(interaction);
-        else if (prefix === command.buyPrefix && command.handleShopButton) await command.handleShopButton(interaction);
+        // Chỉ nút "mua món đồ cụ thể" (buyPrefix, vd ltbuy:userId:luck) mới cần handleShopButton
+        // vì hàm đó cần biết "type" món đồ để tính giá & trừ tiền.
+        // Nút "mở shop" (shopPrefix, vd ltshop:userId) và nút hành động chính (buttonPrefix)
+        // đều đi qua handleButton — handleButton đã tự phân biệt 2 loại này qua customId.
+        if (prefix === command.buyPrefix && command.handleShopButton) await command.handleShopButton(interaction);
         else if (command.handleButton) await command.handleButton(interaction);
       }
       return;
